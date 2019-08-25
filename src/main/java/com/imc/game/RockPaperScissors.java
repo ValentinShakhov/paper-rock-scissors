@@ -35,10 +35,10 @@ public class RockPaperScissors {
 
     void start() {
         final long numberOfRounds = userInteractionUtil.getNumberOfRounds();
-        final List<RoundResult> roundResultList = game.playGame(numberOfRounds);
-        final List<String> gameResultsStringList = roundResultList.stream().map(RoundResult::toString).collect(Collectors.toList());
-        final GameStatistics gameStatistics = gameStatisticsUtil.getGameStatistics(roundResultList);
+        final List<RoundResult> roundResults = game.playGame(numberOfRounds);
+        final List<String> gameResultsStrings = roundResults.stream().map(RoundResult::toString).collect(Collectors.toList());
+        final GameStatistics gameStatistics = gameStatisticsUtil.getGameStatistics(roundResults);
 
-        displayMessageUtil.displayGameResults(gameStatistics.getGameOutcome(), gameStatistics.getOverallStatistics(), gameResultsStringList);
+        displayMessageUtil.displayGameResults(gameStatistics.getGameOutcome(), gameStatistics.getOverallStatistics(), gameResultsStrings);
     }
 }

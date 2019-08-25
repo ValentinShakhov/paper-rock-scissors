@@ -1,6 +1,6 @@
 package com.imc.game.util;
 
-import com.imc.game.GestureConfiguration;
+import com.imc.game.GesturesConfiguration;
 import com.imc.game.entity.Gesture;
 import com.imc.game.exception.InvalidGestureKeyException;
 import org.junit.Test;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 public class GestureUtilTest {
 
     @Spy
-    private GestureConfiguration gestureConfiguration;
+    private GesturesConfiguration gesturesConfiguration;
 
     @InjectMocks
     private GestureUtil gestureUtil;
@@ -56,6 +56,6 @@ public class GestureUtilTest {
     public void shouldNotBeatSelf() {
         assertFalse(gestureUtil.beats(gesture, gesture));
 
-        verify(gestureConfiguration).getWeakerGestures(gesture);
+        verify(gesturesConfiguration).getWeakerGesturesThan(gesture);
     }
 }

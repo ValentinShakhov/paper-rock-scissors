@@ -40,7 +40,7 @@ public class DisplayMessageUtil {
         display(INVALID_GESTURE_MESSAGE);
     }
 
-    public void displayRoundNumber(long roundNumber) {
+    public void displayRoundNumber(final long roundNumber) {
         display("===");
         display(String.format("%s %s", ROUND_NUMBER_MESSAGE, roundNumber));
     }

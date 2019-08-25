@@ -1,7 +1,7 @@
 package com.imc.game.util;
 
 import com.google.inject.Inject;
-import com.imc.game.GestureConfiguration;
+import com.imc.game.GesturesConfiguration;
 import com.imc.game.entity.Gesture;
 import com.imc.game.exception.InvalidGestureKeyException;
 
@@ -10,11 +10,11 @@ import java.util.Random;
 
 public class GestureUtil {
 
-    private final GestureConfiguration gestureConfiguration;
+    private final GesturesConfiguration gesturesConfiguration;
 
     @Inject
-    public GestureUtil(GestureConfiguration gestureConfiguration) {
-        this.gestureConfiguration = gestureConfiguration;
+    public GestureUtil(GesturesConfiguration gesturesConfiguration) {
+        this.gesturesConfiguration = gesturesConfiguration;
     }
 
     Gesture getByKey(final String key) throws InvalidGestureKeyException {
@@ -30,6 +30,6 @@ public class GestureUtil {
             throw new IllegalArgumentException();
         }
 
-        return gestureConfiguration.getWeakerGestures(first).contains(second);
+        return gesturesConfiguration.getWeakerGesturesThan(first).contains(second);
     }
 }
