@@ -1,6 +1,6 @@
 package com.imc.game.service;
 
-import com.imc.game.GesturesConfiguration;
+import com.imc.game.configuration.GesturesConfiguration;
 import com.imc.game.entity.Gesture;
 import com.imc.game.exception.InvalidGestureKeyException;
 
@@ -13,7 +13,7 @@ public class GestureService {
     private final GesturesConfiguration gesturesConfiguration;
 
     @Inject
-    GestureService(GesturesConfiguration gesturesConfiguration) {
+    GestureService(final GesturesConfiguration gesturesConfiguration) {
         this.gesturesConfiguration = gesturesConfiguration;
     }
 

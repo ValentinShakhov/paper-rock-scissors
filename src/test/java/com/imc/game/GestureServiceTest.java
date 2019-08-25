@@ -1,5 +1,6 @@
 package com.imc.game;
 
+import com.imc.game.configuration.GesturesConfiguration;
 import com.imc.game.entity.Gesture;
 import com.imc.game.exception.InvalidGestureKeyException;
 import com.imc.game.service.GestureService;
@@ -7,7 +8,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static junit.framework.TestCase.assertNotNull;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class GestureServiceTest {
 
-    @Spy
+    @Mock
     private GesturesConfiguration gesturesConfiguration;
 
     @InjectMocks
