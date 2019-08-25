@@ -1,23 +1,23 @@
-package com.imc.game.util;
+package com.imc.game.service;
 
-import com.google.inject.Inject;
 import com.imc.game.GesturesConfiguration;
 import com.imc.game.entity.Gesture;
 import com.imc.game.exception.InvalidGestureKeyException;
 
+import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.Random;
 
-public class GestureUtil {
+public class GestureService {
 
     private final GesturesConfiguration gesturesConfiguration;
 
     @Inject
-    public GestureUtil(GesturesConfiguration gesturesConfiguration) {
+    GestureService(GesturesConfiguration gesturesConfiguration) {
         this.gesturesConfiguration = gesturesConfiguration;
     }
 
-    Gesture getByKey(final String key) throws InvalidGestureKeyException {
+    public Gesture getByKey(final String key) throws InvalidGestureKeyException {
         return Arrays.stream(Gesture.values()).filter(gesture -> gesture.getKey().equals(key)).findFirst().orElseThrow(InvalidGestureKeyException::new);
     }
 
@@ -25,7 +25,7 @@ public class GestureUtil {
         return Gesture.values()[new Random().nextInt(Gesture.values().length)];
     }
 
-    boolean beats(final Gesture first, final Gesture second) {
+    public boolean beats(final Gesture first, final Gesture second) {
         if (first == null || second == null) {
             throw new IllegalArgumentException();
         }

@@ -1,27 +1,28 @@
-package com.imc.game.util;
+package com.imc.game.service;
 
-import com.google.inject.Inject;
 import com.imc.game.entity.Gesture;
 import com.imc.game.exception.InvalidNumberOfRoundsException;
 
+import javax.inject.Inject;
 import java.util.Scanner;
 
-public class UserInteractionUtil {
+public class UserInputConsoleService implements UserInputService {
 
-    private final GestureUtil gestureUtil;
+    private final GestureService gestureService;
 
-    private final DisplayMessageUtil displayMessageUtil;
+    private final UserMessageService userMessageService;
 
     @Inject
-    public UserInteractionUtil(final GestureUtil gestureUtil, final DisplayMessageUtil displayMessageUtil) {
-        this.gestureUtil = gestureUtil;
-        this.displayMessageUtil = displayMessageUtil;
+    UserInputConsoleService(final GestureService gestureService, final UserMessageService userMessageService) {
+        this.gestureService = gestureService;
+        this.userMessageService = userMessageService;
     }
 
+    @Override
     public long getNumberOfRounds() {
         final Scanner scanner = new Scanner(System.in);
 
-        displayMessageUtil.displayEnterNumberOfRoundsMessage();
+        userMessageService.displayEnterNumberOfRoundsMessage();
 
         long numberOfRounds = 0;
         while (numberOfRounds == 0 && scanner.hasNext()) {
@@ -33,26 +34,27 @@ public class UserInteractionUtil {
                 }
                 numberOfRounds = input;
             } catch (Exception e) {
-                displayMessageUtil.displayInvalidNumberOfRoundsMessage();
-                displayMessageUtil.displayEnterNumberOfRoundsMessage();
+                userMessageService.displayInvalidNumberOfRoundsMessage();
+                userMessageService.displayEnterNumberOfRoundsMessage();
             }
         }
 
         return numberOfRounds;
     }
 
+    @Override
     public Gesture getUserGesture() {
         final Scanner scanner = new Scanner(System.in);
 
-        displayMessageUtil.displayRoundInstructions();
+        userMessageService.displayRoundInstructions();
 
         Gesture gesture = null;
         while (gesture == null && scanner.hasNext()) {
             try {
-                gesture = gestureUtil.getByKey(scanner.next());
+                gesture = gestureService.getByKey(scanner.next());
             } catch (Exception e) {
-                displayMessageUtil.displayInvalidGestureMessage();
-                displayMessageUtil.displayRoundInstructions();
+                userMessageService.displayInvalidGestureMessage();
+                userMessageService.displayRoundInstructions();
             }
         }
 

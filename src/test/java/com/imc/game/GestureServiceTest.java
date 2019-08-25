@@ -1,8 +1,8 @@
-package com.imc.game.util;
+package com.imc.game;
 
-import com.imc.game.GesturesConfiguration;
 import com.imc.game.entity.Gesture;
 import com.imc.game.exception.InvalidGestureKeyException;
+import com.imc.game.service.GestureService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -16,45 +16,45 @@ import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class GestureUtilTest {
+public class GestureServiceTest {
 
     @Spy
     private GesturesConfiguration gesturesConfiguration;
 
     @InjectMocks
-    private GestureUtil gestureUtil;
+    private GestureService gestureService;
 
     @Mock
     private Gesture gesture;
 
     @Test(expected = InvalidGestureKeyException.class)
     public void shouldFailNonExistingKey() throws InvalidGestureKeyException {
-        gestureUtil.getByKey("someNonExistingKey");
+        gestureService.getByKey("someNonExistingKey");
     }
 
     @Test
     public void shouldReturnGestureByKey() throws InvalidGestureKeyException {
-        assertEquals(gestureUtil.getByKey(Gesture.PAPER.getKey()), Gesture.PAPER);
+        assertEquals(gestureService.getByKey(Gesture.PAPER.getKey()), Gesture.PAPER);
     }
 
     @Test
     public void shouldReturnRandomGesture() {
-        assertNotNull(gestureUtil.getRandom());
+        assertNotNull(gestureService.getRandom());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailBeatsFirstArgNull() {
-        gestureUtil.beats(null, gesture);
+        gestureService.beats(null, gesture);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailBeatsSecondArgNull() {
-        gestureUtil.beats(gesture, null);
+        gestureService.beats(gesture, null);
     }
 
     @Test
     public void shouldNotBeatSelf() {
-        assertFalse(gestureUtil.beats(gesture, gesture));
+        assertFalse(gestureService.beats(gesture, gesture));
 
         verify(gesturesConfiguration).getWeakerGesturesThan(gesture);
     }

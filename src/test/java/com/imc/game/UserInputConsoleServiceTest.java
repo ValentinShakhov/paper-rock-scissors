@@ -1,7 +1,10 @@
-package com.imc.game.util;
+package com.imc.game;
 
 import com.imc.game.entity.Gesture;
 import com.imc.game.exception.InvalidGestureKeyException;
+import com.imc.game.service.GestureService;
+import com.imc.game.service.UserInputConsoleService;
+import com.imc.game.service.UserMessageService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -16,16 +19,16 @@ import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class UserInteractionUtilTest {
+public class UserInputConsoleServiceTest {
 
     @Mock
-    private GestureUtil gestureUtil;
+    private GestureService gestureService;
 
     @Mock
-    private DisplayMessageUtil displayMessageUtil;
+    private UserMessageService userMessageService;
 
     @InjectMocks
-    private UserInteractionUtil userInteractionUtil;
+    private UserInputConsoleService userInputConsoleService;
 
     @Test
     public void shouldReturnNumberOfRounds() {
@@ -34,10 +37,10 @@ public class UserInteractionUtilTest {
 
         System.setIn(in);
 
-        assertEquals(expectedNumberOfRounds, userInteractionUtil.getNumberOfRounds());
+        assertEquals(expectedNumberOfRounds, userInputConsoleService.getNumberOfRounds());
 
-        verify(displayMessageUtil).displayEnterNumberOfRoundsMessage();
-        verify(displayMessageUtil, never()).displayInvalidNumberOfRoundsMessage();
+        verify(userMessageService).displayEnterNumberOfRoundsMessage();
+        verify(userMessageService, never()).displayInvalidNumberOfRoundsMessage();
     }
 
     @Test
@@ -46,10 +49,10 @@ public class UserInteractionUtilTest {
 
         System.setIn(in);
 
-        assertEquals(0, userInteractionUtil.getNumberOfRounds());
+        assertEquals(0, userInputConsoleService.getNumberOfRounds());
 
-        verify(displayMessageUtil, times(2)).displayEnterNumberOfRoundsMessage();
-        verify(displayMessageUtil).displayInvalidNumberOfRoundsMessage();
+        verify(userMessageService, times(2)).displayEnterNumberOfRoundsMessage();
+        verify(userMessageService).displayInvalidNumberOfRoundsMessage();
     }
 
     @Test
@@ -59,15 +62,15 @@ public class UserInteractionUtilTest {
 
         System.setIn(in);
 
-        when(gestureUtil.getByKey(expectedGesture.getKey())).thenReturn(expectedGesture);
+        when(gestureService.getByKey(expectedGesture.getKey())).thenReturn(expectedGesture);
 
-        final Gesture userGesture = userInteractionUtil.getUserGesture();
+        final Gesture userGesture = userInputConsoleService.getUserGesture();
 
         assertEquals(expectedGesture, userGesture);
 
-        verify(displayMessageUtil).displayRoundInstructions();
-        verify(gestureUtil).getByKey(expectedGesture.getKey());
-        verify(displayMessageUtil, never()).displayInvalidGestureMessage();
+        verify(userMessageService).displayRoundInstructions();
+        verify(gestureService).getByKey(expectedGesture.getKey());
+        verify(userMessageService, never()).displayInvalidGestureMessage();
     }
 
     @Test
@@ -77,14 +80,14 @@ public class UserInteractionUtilTest {
 
         System.setIn(in);
 
-        when(gestureUtil.getByKey(nonExistingKey)).thenThrow(new InvalidGestureKeyException());
+        when(gestureService.getByKey(nonExistingKey)).thenThrow(new InvalidGestureKeyException());
 
-        final Gesture userGesture = userInteractionUtil.getUserGesture();
+        final Gesture userGesture = userInputConsoleService.getUserGesture();
 
         assertNull(userGesture);
 
-        verify(displayMessageUtil, times(2)).displayRoundInstructions();
-        verify(gestureUtil).getByKey(nonExistingKey);
-        verify(displayMessageUtil).displayInvalidGestureMessage();
+        verify(userMessageService, times(2)).displayRoundInstructions();
+        verify(gestureService).getByKey(nonExistingKey);
+        verify(userMessageService).displayInvalidGestureMessage();
     }
 }

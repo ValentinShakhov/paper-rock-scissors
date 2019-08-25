@@ -1,7 +1,9 @@
-package com.imc.game.util;
+package com.imc.game;
 
 import com.imc.game.entity.Gesture;
 import com.imc.game.entity.RoundOutcome;
+import com.imc.game.service.GestureService;
+import com.imc.game.service.RoundOutcomeService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -13,13 +15,13 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class RoundOutcomeUtilTest {
+public class RoundOutcomeServiceTest {
 
     @Mock
-    private GestureUtil gestureUtil;
+    private GestureService gestureService;
 
     @InjectMocks
-    private RoundOutcomeUtil roundOutcomeUtil;
+    private RoundOutcomeService roundOutcomeService;
 
     @Mock
     private Gesture firstGesture;
@@ -29,47 +31,47 @@ public class RoundOutcomeUtilTest {
 
     @Test
     public void shouldReturnTie() {
-        final RoundOutcome roundOutcome = roundOutcomeUtil.getRoundOutcome(firstGesture, firstGesture);
+        final RoundOutcome roundOutcome = roundOutcomeService.getRoundOutcome(firstGesture, firstGesture);
 
         assertEquals(roundOutcome, RoundOutcome.TIE);
 
-        verify(gestureUtil, never()).beats(any(), any());
+        verify(gestureService, never()).beats(any(), any());
     }
 
     @Test
     public void shouldReturnWin() {
-        when(gestureUtil.beats(firstGesture, secondGesture)).thenReturn(true);
+        when(gestureService.beats(firstGesture, secondGesture)).thenReturn(true);
 
-        final RoundOutcome roundOutcome = roundOutcomeUtil.getRoundOutcome(firstGesture, secondGesture);
+        final RoundOutcome roundOutcome = roundOutcomeService.getRoundOutcome(firstGesture, secondGesture);
 
         assertEquals(roundOutcome, RoundOutcome.WIN);
 
-        verify(gestureUtil).beats(firstGesture, secondGesture);
+        verify(gestureService).beats(firstGesture, secondGesture);
     }
 
     @Test
     public void shouldReturnLoose() {
-        when(gestureUtil.beats(firstGesture, secondGesture)).thenReturn(false);
+        when(gestureService.beats(firstGesture, secondGesture)).thenReturn(false);
 
-        final RoundOutcome roundOutcome = roundOutcomeUtil.getRoundOutcome(firstGesture, secondGesture);
+        final RoundOutcome roundOutcome = roundOutcomeService.getRoundOutcome(firstGesture, secondGesture);
 
         assertEquals(roundOutcome, RoundOutcome.LOOSE);
 
-        verify(gestureUtil).beats(firstGesture, secondGesture);
+        verify(gestureService).beats(firstGesture, secondGesture);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailFirstNullArg() {
-        roundOutcomeUtil.getRoundOutcome(null, secondGesture);
+        roundOutcomeService.getRoundOutcome(null, secondGesture);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailSecondNullArg() {
-        roundOutcomeUtil.getRoundOutcome(firstGesture, null);
+        roundOutcomeService.getRoundOutcome(firstGesture, null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailNullArgs() {
-        roundOutcomeUtil.getRoundOutcome(null, null);
+        roundOutcomeService.getRoundOutcome(null, null);
     }
 }

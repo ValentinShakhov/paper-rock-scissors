@@ -1,7 +1,8 @@
-package com.imc.game.util;
+package com.imc.game;
 
 import com.imc.game.entity.GameOutcome;
 import com.imc.game.entity.RoundOutcome;
+import com.imc.game.service.GameOutcomeService;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -9,11 +10,11 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
-public class GameOutcomeUtilTest {
+public class GameServiceOutcomeServiceTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailNullArg() {
-        new GameOutcomeUtil().getGameOutcome(null);
+        new GameOutcomeService().getGameOutcome(null);
     }
 
     @Test
@@ -22,7 +23,7 @@ public class GameOutcomeUtilTest {
 
         roundOutcomesMap.put(RoundOutcome.WIN, 1L);
 
-        final GameOutcome gameOutcome = new GameOutcomeUtil().getGameOutcome(roundOutcomesMap);
+        final GameOutcome gameOutcome = new GameOutcomeService().getGameOutcome(roundOutcomesMap);
 
         assertEquals(gameOutcome, GameOutcome.WIN);
     }
@@ -33,7 +34,7 @@ public class GameOutcomeUtilTest {
 
         roundOutcomesMap.put(RoundOutcome.LOOSE, 1L);
 
-        final GameOutcome gameOutcome = new GameOutcomeUtil().getGameOutcome(roundOutcomesMap);
+        final GameOutcome gameOutcome = new GameOutcomeService().getGameOutcome(roundOutcomesMap);
 
         assertEquals(gameOutcome, GameOutcome.LOOSE);
     }
@@ -45,7 +46,7 @@ public class GameOutcomeUtilTest {
         roundOutcomesMap.put(RoundOutcome.WIN, 1L);
         roundOutcomesMap.put(RoundOutcome.LOOSE, 1L);
 
-        final GameOutcome gameOutcome = new GameOutcomeUtil().getGameOutcome(roundOutcomesMap);
+        final GameOutcome gameOutcome = new GameOutcomeService().getGameOutcome(roundOutcomesMap);
 
         assertEquals(gameOutcome, GameOutcome.TIE);
     }

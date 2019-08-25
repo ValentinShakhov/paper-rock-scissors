@@ -1,9 +1,11 @@
-package com.imc.game.util;
+package com.imc.game;
 
 import com.imc.game.entity.GameOutcome;
 import com.imc.game.entity.GameStatistics;
 import com.imc.game.entity.RoundOutcome;
 import com.imc.game.entity.RoundResult;
+import com.imc.game.service.GameOutcomeService;
+import com.imc.game.service.GameStatisticsService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -19,20 +21,20 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class GameStatisticsUtilTest {
+public class GameServiceStatisticsServiceTest {
 
     @Mock
-    private GameOutcomeUtil gameOutcomeUtil;
+    private GameOutcomeService gameOutcomeService;
 
     @InjectMocks
-    private GameStatisticsUtil gameStatisticsUtil;
+    private GameStatisticsService gameStatisticsService;
 
     @Mock
     private RoundResult roundResult;
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailNullArg() {
-        gameStatisticsUtil.getGameStatistics(null);
+        gameStatisticsService.getGameStatistics(null);
     }
 
     @Test
@@ -43,13 +45,13 @@ public class GameStatisticsUtilTest {
         roundResults.add(roundResult);
 
         when(roundResult.getRoundOutcome()).thenReturn(RoundOutcome.WIN);
-        when(gameOutcomeUtil.getGameOutcome(anyMap())).thenReturn(gameOutcome);
+        when(gameOutcomeService.getGameOutcome(anyMap())).thenReturn(gameOutcome);
 
-        final GameStatistics gameStatistics = gameStatisticsUtil.getGameStatistics(roundResults);
+        final GameStatistics gameStatistics = gameStatisticsService.getGameStatistics(roundResults);
 
         assertEquals(gameStatistics.getGameOutcome(), gameOutcome.toString());
         assertFalse(gameStatistics.getOverallStatistics().isEmpty());
 
-        verify(gameOutcomeUtil).getGameOutcome(anyMap());
+        verify(gameOutcomeService).getGameOutcome(anyMap());
     }
 }

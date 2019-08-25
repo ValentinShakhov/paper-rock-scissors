@@ -1,16 +1,17 @@
-package com.imc.game.util;
+package com.imc.game.service;
 
-import com.google.inject.Inject;
 import com.imc.game.entity.Gesture;
 import com.imc.game.entity.RoundOutcome;
 
-public class RoundOutcomeUtil {
+import javax.inject.Inject;
 
-    private final GestureUtil gestureUtil;
+public class RoundOutcomeService {
+
+    private final GestureService gestureService;
 
     @Inject
-    public RoundOutcomeUtil(final GestureUtil gestureUtil) {
-        this.gestureUtil = gestureUtil;
+    RoundOutcomeService(final GestureService gestureService) {
+        this.gestureService = gestureService;
     }
 
     public RoundOutcome getRoundOutcome(final Gesture userGesture, final Gesture computerGesture) {
@@ -20,7 +21,7 @@ public class RoundOutcomeUtil {
 
         if (userGesture == computerGesture) {
             return RoundOutcome.TIE;
-        } else if (gestureUtil.beats(userGesture, computerGesture)) {
+        } else if (gestureService.beats(userGesture, computerGesture)) {
             return RoundOutcome.WIN;
         } else return RoundOutcome.LOOSE;
     }

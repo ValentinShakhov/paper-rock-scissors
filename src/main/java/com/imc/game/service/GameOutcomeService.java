@@ -1,13 +1,13 @@
-package com.imc.game.util;
+package com.imc.game.service;
 
 import com.imc.game.entity.GameOutcome;
 import com.imc.game.entity.RoundOutcome;
 
 import java.util.Map;
 
-class GameOutcomeUtil {
+public class GameOutcomeService {
 
-    GameOutcome getGameOutcome(final Map<RoundOutcome, Long> numberOfEachRoundOutcomes) {
+    public GameOutcome getGameOutcome(final Map<RoundOutcome, Long> numberOfEachRoundOutcomes) {
         if (numberOfEachRoundOutcomes == null) {
             throw new IllegalArgumentException();
         }
